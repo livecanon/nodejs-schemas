@@ -7,6 +7,9 @@ dotenv.config()
 const app = express()
 const port = process.env.PORT || 3000
 
+const shopRoutes = require('./routes/shop')
+app.use('/shop', shopRoutes)
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
