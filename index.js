@@ -1,5 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv')
+const mongoConnect = require('./utils/database').mongoConnect
 
 dotenv.config()
 
@@ -10,6 +11,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+mongoConnect(() => {
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+  })
 })
