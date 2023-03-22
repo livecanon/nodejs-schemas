@@ -34,4 +34,12 @@ exports.getProducts = (req, res) => {
     .catch((err) => console.log(err))
 }
 
-exports.postDeleteProduct = (req, res, next) => {}
+exports.postDeleteProduct = (req, res) => {
+  const prodId = req.body.productId
+
+  Product.deleteById(prodId)
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((err) => console.log(err))
+}
