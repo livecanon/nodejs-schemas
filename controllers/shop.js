@@ -16,6 +16,22 @@ exports.postAddProduct = (req, res) => {
 
 exports.postEditProduct = (req, res, next) => {}
 
-exports.getProducts = (req, res, next) => {}
+exports.getProduct = (req, res) => {
+  const id = req.params.id
+
+  Product.findById(id)
+    .then((product) => {
+      res.json(product)
+    })
+    .catch((err) => console.log(err))
+}
+
+exports.getProducts = (req, res) => {
+  Product.fetchAll()
+    .then((products) => {
+      return res.json(products)
+    })
+    .catch((err) => console.log(err))
+}
 
 exports.postDeleteProduct = (req, res, next) => {}
