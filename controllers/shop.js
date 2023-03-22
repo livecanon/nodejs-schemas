@@ -14,7 +14,17 @@ exports.postAddProduct = (req, res) => {
     })
 }
 
-exports.postEditProduct = (req, res, next) => {}
+exports.postEditProduct = (req, res) => {
+  const { productId, title, price, imageUrl, description } = req.body
+
+  const product = new Product(title, price, description, imageUrl, productId)
+  product
+    .save()
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((err) => console.log(err))
+}
 
 exports.getProduct = (req, res) => {
   const id = req.params.id

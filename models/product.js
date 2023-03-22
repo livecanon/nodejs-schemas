@@ -21,8 +21,8 @@ class Product {
       dbOp = db.collection('products').insertOne(this)
     }
     return dbOp
-      .then((result) => {
-        return Product.findById(result.insertedId)
+      .then(() => {
+        return Product.findById(this._id)
       })
       .catch((err) => {
         console.log(err)
