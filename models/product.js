@@ -1,5 +1,5 @@
 const mongodb = require('mongodb')
-const getDb = require('../utilss/database').getDb
+const getDb = require('../utils/database').getDb
 
 class Product {
   constructor(title, price, description, imageUrl, id) {
@@ -10,11 +10,40 @@ class Product {
     this._id = id ? new mongodb.ObjectId(id) : null
   }
 
-  save() {}
+  save() {
+    const db = getDb()
+    let dbOp
+    if (this._id) {
+      dbOp = db
+        .collection('products')
+        .updateOne({ _id: this._id }, { $set: this })
+    } else {
+      dbOp = db.collection('products').insertOne(this)
+    }
+    return dbOp
+      .then((result) => {
+        return Product.findById(result.insertedId)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   static fetchAll() {}
 
-  static findById() {}
+  static findById(prodId) {
+    const db = getDb()
+    return db
+      .collection('products')
+      .find({ _id: new mongodb.ObjectId(prodId) })
+      .next()
+      .then((product) => {
+        return product
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   static deleteById() {}
 }
