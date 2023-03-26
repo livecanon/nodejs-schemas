@@ -1,7 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
-const mongoConnect = require('./utils/database').mongoConnect
+const mongoose = require('mongoose')
 
 dotenv.config()
 
@@ -20,8 +20,13 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-mongoConnect(() => {
-  app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+mongoose
+  .connect('mongodb://root:password@127.0.0.1:27017?retryWrites=true')
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Example app listening on port ${port}`)
+    })
   })
-})
+  .catch((err) => {
+    console.log(err)
+  })
