@@ -2,7 +2,7 @@ const Product = require('../models/product')
 
 exports.postAddProduct = (req, res) => {
   const { title, imageUrl, price, description } = req.body
-  const product = new Product(title, price, description, imageUrl, null)
+  const product = new Product({ title, price, description, imageUrl })
 
   product
     .save()
@@ -15,11 +15,9 @@ exports.postAddProduct = (req, res) => {
 }
 
 exports.postEditProduct = (req, res) => {
-  const { productId, title, price, imageUrl, description } = req.body
+  const { _id, title, price, imageUrl, description } = req.body
 
-  const product = new Product(title, price, description, imageUrl, productId)
-  product
-    .save()
+  Product.findByIdAndUpdate(_id, { title, price, imageUrl, description })
     .then((result) => {
       res.json(result)
     })
@@ -37,7 +35,7 @@ exports.getProduct = (req, res) => {
 }
 
 exports.getProducts = (req, res) => {
-  Product.fetchAll()
+  Product.find()
     .then((products) => {
       return res.json(products)
     })
@@ -47,7 +45,7 @@ exports.getProducts = (req, res) => {
 exports.postDeleteProduct = (req, res) => {
   const prodId = req.body.productId
 
-  Product.deleteById(prodId)
+  Product.findByIdAndDelete(prodId)
     .then((result) => {
       res.json(result)
     })
