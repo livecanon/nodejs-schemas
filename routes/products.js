@@ -1,13 +1,14 @@
 const express = require('express')
 
 const productsController = require('../controllers/products')
+const isAuthenticated = require('../middleware/isAuthenticated')
 
 const router = express.Router()
 
-router.post('/', productsController.createProduct)
-router.get('/', productsController.getAllProducts)
-router.get('/:id', productsController.getProduct)
-router.put('/', productsController.updateProduct)
-router.delete('/:id', productsController.deleteProduct)
+router.post('/', isAuthenticated, productsController.createProduct)
+router.get('/', isAuthenticated, productsController.getAllProducts)
+router.get('/:id', isAuthenticated, productsController.getProduct)
+router.put('/', isAuthenticated, productsController.updateProduct)
+router.delete('/:id', isAuthenticated, productsController.deleteProduct)
 
 module.exports = router

@@ -29,6 +29,7 @@ app.use(
 
 app.use((req, res, next) => {
   if (!req.session.user) {
+    // User is not logged in
     return next()
   }
   User.findById(req.session.user._id)
